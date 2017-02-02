@@ -6,5 +6,7 @@ Simple SPARQL endpoints access library in swift
     ]
 
 import SPARQLclient
+
 let client = try! SPARQLclient(url: keggEP)
+
 let (vars, data) = try! client.select(query:"select ?x, ?y where { ?x a ?y } limit 17")
