@@ -5,13 +5,13 @@ import Foundation
 //import Core
 //import HTTP
 
-let dbpediaEP = "http://dbpedia.org/sparql"
-let keggEP = "http://kegg.bio2rdf.org/sparql"
-let goEP = "http://go.bio2rdf.org/sparql"
-let pubmedEP = "http://pubmed.bio2rdf.org/sparql"
-let pdbEP = "http://pdb.bio2rdf.org/sparql"
+public let dbpediaEP = "http://dbpedia.org/sparql"
+public let keggEP = "http://kegg.bio2rdf.org/sparql"
+public let goEP = "http://go.bio2rdf.org/sparql"
+public let pubmedEP = "http://pubmed.bio2rdf.org/sparql"
+public let pdbEP = "http://pdb.bio2rdf.org/sparql"
 
-enum RDFnode<Row> {
+public enum RDFnode<Row> {
   case uri(String)
   case lit(String)
   case slit(String, String)
@@ -59,17 +59,17 @@ func map2node(val: Map) -> RDFnode<Map> {
     }
   }
 
-protocol SPARQLprotocol {
+public protocol SPARQLprotocol {
     func select(query: String) throws -> ([String]?, [[String: RDFnode<Map>]]?)
     func select(query: String, graph: String?) throws -> ([String]?, [[String: RDFnode<Map>]]?)
 }
 
-struct SPARQLclient : SPARQLprotocol {
+public struct SPARQLclient : SPARQLprotocol {
 
     let client: Client
     let path: String
 
-    init(url: String) throws {
+    public init(url: String) throws {
      guard let u = URL(string: url) else {
        throw URLError.invalidURL
      }
@@ -79,7 +79,7 @@ struct SPARQLclient : SPARQLprotocol {
 
     let contentNegotiation = ContentNegotiationMiddleware(mediaTypes: [.json /*, .urlEncodedForm*/], mode: .client)
 
-    func select(query: String, graph: String?) throws -> ([String]?, [[String: RDFnode<Map>]]?) {
+    public func select(query: String, graph: String?) throws -> ([String]?, [[String: RDFnode<Map>]]?) {
        let g: String
        if let gr = graph {
          g = "default-graph-uri=" + gr.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)! + "&"
@@ -96,7 +96,7 @@ struct SPARQLclient : SPARQLprotocol {
        let data = try c?["results"]["bindings"].asArray().map({try $0.asDictionary().mapValue(map2node)})
        return (vars, data) 
     }
-    func select(query: String) throws -> ([String]?, [[String: RDFnode<Map>]]?) {
+    public func select(query: String) throws -> ([String]?, [[String: RDFnode<Map>]]?) {
       return try select(query: query, graph: nil)
     }
 }
