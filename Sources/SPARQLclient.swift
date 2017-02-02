@@ -90,7 +90,7 @@ public struct SPARQLclient : SPARQLprotocol {
                                headers: ["Accept" : "application/sparql-results+json"],
                                middleware: [contentNegotiation]
                               )
-       print(response)
+//       print(response)
        let c = response.content
        let vars = try c?["head"]["vars"].asArray().map({try $0.asString()})
        let data = try c?["results"]["bindings"].asArray().map({try $0.asDictionary().mapValue(map2node)})
