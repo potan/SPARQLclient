@@ -10,4 +10,4 @@ import SPARQLclient
 let client = try! SPARQLclient(url: keggEP)
 
 let (vars, data) = try! client.select(
-     query: "SELECT distinct ?o ?p ?v WHERE {?o <http://purl.org/dc/terms/title> "Calcium signaling pathway"@en ; ?p ?v}" )
+     query: "SELECT distinct ?o ?p ?v WHERE {?o &lt;http://purl.org/dc/terms/title&gt; "Calcium signaling pathway"@en ; ?p ?v}" )
